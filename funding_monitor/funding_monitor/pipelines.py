@@ -4,7 +4,7 @@
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
-
+import os.path
 
 class FundingMonitorPipeline(object):
     def process_item(self, item, spider):
@@ -16,7 +16,9 @@ import json
 
 class JsonWriterPipeline(object):
     def open_spider(self, spider):
-        self.file = open('items.json', 'w')
+        filename = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'output', '{}_items.json'.format(spider.name))
+        print (filename)
+        self.file = open(filename, 'a')
 
     def close_spider(self, spider):
         self.file.close()

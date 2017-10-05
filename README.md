@@ -8,10 +8,16 @@ https://techcrunch.com/2017/09/23/how-to-announce-a-funding-round/
 ... These include (but aren’t limited to): The Wall Street Journal, The New York Times, Forbes, Fortune, TechCrunch, Recode, VentureBeat, Business Insider, Buzzfeed, CNN, and CNBC. Additionally, newsletters like StrictlyVC, Fortune’s TermSheet, Mattermark and Pitchbook include roundup coverage of new financings.
 
 * TechCrunch
-* Recode
+* Recode [Done]
 * VentureBeat [Done]
 
 ## Run
+Single spider
 ```
 scrapy crawl venturebeat
+```
+
+All spiders
+```
+python run_all_spiders.py
 ```
