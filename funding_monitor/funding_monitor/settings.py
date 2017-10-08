@@ -67,8 +67,8 @@ DOWNLOAD_DELAY = 5
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
+   'funding_monitor.pipelines.FundingNewsClassifierPipeline': 200,
    'funding_monitor.pipelines.JsonWriterPipeline': 300,
-   # 'funding_monitor.pipelines.MongoPipeline': 400,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -91,3 +91,8 @@ ITEM_PIPELINES = {
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+# Model path for Keras model
+import os
+STEPS_LEN = 33 # max number of tokens to be used
+CLASSIFIER_MODEL_PATH = os.path.join(os.path.dirname(__file__), '../../classifier/model/fundingNewsClassifier.h5')

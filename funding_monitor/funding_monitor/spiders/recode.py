@@ -22,7 +22,7 @@ class RecodeSpider(scrapy.Spider):
 
         meta = {
             'article_id': article.css('a[data-entry-admin]::attr(data-entry-admin)').extract_first(),
-            'artile_title': article.css('.c-entry-box--compact__title a[data-analytics-link="article"]::text').extract_first(),
+            'article_title': article.css('.c-entry-box--compact__title a[data-analytics-link="article"]::text').extract_first(),
             'story_url': story_url,
             'time': article.css('time::text').extract_first().strip(),
             'author': article.css('a[href^="https://www.recode.net/authors/"]::text').extract_first(),

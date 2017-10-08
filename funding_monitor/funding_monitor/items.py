@@ -12,8 +12,9 @@ class FundingMonitorItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     article_id = scrapy.Field()
-    artile_title = scrapy.Field()
+    article_title = scrapy.Field()
     story_url = scrapy.Field()
     time = scrapy.Field()
     author = scrapy.Field()
     content = scrapy.Field()
+    has_funding_news = scrapy.Field()

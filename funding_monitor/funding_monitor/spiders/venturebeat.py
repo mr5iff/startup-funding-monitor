@@ -22,7 +22,7 @@ class VenturebeatSpider(scrapy.Spider):
 
         meta = {
             'article_id': article.css('::attr(id)').extract_first(),
-            'artile_title': article.css('header.article-header a::attr(title)').extract_first(),
+            'article_title': article.css('header.article-header a::attr(title)').extract_first(),
             'story_url': story_url,
             'time': article.css('time::attr(datetime)').extract_first(),
             'author': article.css('a[rel="author"]::text').extract_first(),

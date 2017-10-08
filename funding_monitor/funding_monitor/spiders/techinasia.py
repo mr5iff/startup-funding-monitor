@@ -20,7 +20,7 @@ class TechinasiaSpider(scrapy.Spider):
       for article in articles:
         item = FundingMonitorItem()
         item['article_id'] = article["id"]
-        item['artile_title'] = article["title"]
+        item['article_title'] = article["title"]
         item['story_url'] = article["link"]
         item['author'] = article['author']['display_name']
         item['time'] = article['date_gmt']
