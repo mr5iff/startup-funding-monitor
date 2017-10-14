@@ -8,6 +8,7 @@ import os.path
 
 class FundingMonitorPipeline(object):
     def process_item(self, item, spider):
+        item['spider_name'] = spider.name
         return item
 
 ### JsonWriterPipeline starts

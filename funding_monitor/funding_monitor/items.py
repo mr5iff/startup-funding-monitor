@@ -18,3 +18,4 @@ class FundingMonitorItem(scrapy.Item):
     author = scrapy.Field()
     content = scrapy.Field()
     has_funding_news = scrapy.Field()
+    spider_name = scrapy.Field()
