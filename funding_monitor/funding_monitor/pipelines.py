@@ -9,6 +9,7 @@ import os.path
 class FundingMonitorPipeline(object):
     def process_item(self, item, spider):
         item['spider_name'] = spider.name
+        item['id'] = '_'.join([item['spider_name'], item['article_id']])
         return item
 
 ### JsonWriterPipeline starts
@@ -110,3 +111,20 @@ class FundingNewsClassifierPipeline(object):
         word_vector[np.isnan(word_vector)] = 0.0
         return np.clip(word_vector, a_min=lower_bound, a_max=upper_bound)
 ### FundingNewsClassifierPipeline ends
+
+
+### NaiveDropDuplicatesPipeline starts
+from scrapy.exceptions import DropItem
+
+class NaiveDropDuplicatesPipeline(object):
+    """Naive as in it uses in memory ids_seen for the check. Better should use be independent of memory, e.g. cache etc"""
+    def __init__(self):
+        self.ids_seen = set()
+
+    def process_item(self, item, spider):
+        if item['id'] in self.ids_seen:
+            raise DropItem("Duplicate item found: %s" % item)
+        else:
+            self.ids_seen.add(item['id'])
+            return item
+### NaiveDropDuplicatesPipeline ends
