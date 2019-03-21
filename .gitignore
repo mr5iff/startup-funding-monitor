@@ -3,7 +3,7 @@ classifier/data/
 funding_monitor/output/
 
 # Byte-compiled / optimized / DLL files
-__pycache__/
+funding_monitor/funding_monitor/__pycache__/
 *.py[cod]
 *$py.class
 
