@@ -9,10 +9,7 @@ import os.path
 class FundingMonitorPipeline(object):
     def process_item(self, item, spider):
         item['spider_name'] = spider.name
-<<<<<<< HEAD
-=======
         item['id'] = '_'.join([item['spider_name'], item['article_id']])
->>>>>>> c102eb565ef224fa3a93d11a075bdf7214ec9fbf
         return item
 
 ### JsonWriterPipeline starts
