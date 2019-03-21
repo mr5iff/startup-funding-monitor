@@ -10,6 +10,9 @@ funding_monitor/funding_monitor/__pycache__/
 *.py[cod]
 *$py.class
 
+# classifier is a bit too big
+classifier
+
 # C extensions
 *.so
 
