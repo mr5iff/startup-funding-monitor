@@ -67,7 +67,9 @@ DOWNLOAD_DELAY = 5
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'funding_monitor.pipelines.FundingNewsClassifierPipeline': 200,
+   'funding_monitor.pipelines.FundingMonitorPipeline': 100,
+   'funding_monitor.pipelines.NaiveDropDuplicatesPipeline': 150,
+   # 'funding_monitor.pipelines.FundingNewsClassifierPipeline': 200,
    'funding_monitor.pipelines.JsonWriterPipeline': 300,
 }
 

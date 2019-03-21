@@ -22,6 +22,9 @@ https://techcrunch.com/2017/09/23/how-to-announce-a-funding-round/
 * VentureBeat [Done]
 * Techinasia [Done, AJAX]
 * TechCrunch [Later]
+* Inc. (www.inc.com) [Done]
+* e27 [Done]
+* Digital News Asia
 
 ### Run
 Single spider
@@ -29,6 +32,9 @@ Single spider
 scrapy crawl venturebeat
 scrapy crawl techinasia
 scrapy crawl recode
+scrapy crawl inc
+scrapy crawl e27
+scrapy crawl digitalnewsasia
 ```
 
 All spiders
