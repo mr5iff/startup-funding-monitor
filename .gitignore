@@ -1,6 +1,6 @@
 classifier/data/
 
-funding_monitor/output/
+funding_monitor/funding_monitor/output/*
 
 # Byte-compiled / optimized / DLL files
 funding_monitor/funding_monitor/__pycache__/
