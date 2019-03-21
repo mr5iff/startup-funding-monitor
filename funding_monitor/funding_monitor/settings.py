@@ -68,7 +68,12 @@ DOWNLOAD_DELAY = 5
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    'funding_monitor.pipelines.FundingMonitorPipeline': 100,
+<<<<<<< HEAD
    'funding_monitor.pipelines.FundingNewsClassifierPipeline': 200,
+=======
+   'funding_monitor.pipelines.NaiveDropDuplicatesPipeline': 150,
+   # 'funding_monitor.pipelines.FundingNewsClassifierPipeline': 200,
+>>>>>>> c102eb565ef224fa3a93d11a075bdf7214ec9fbf
    'funding_monitor.pipelines.JsonWriterPipeline': 300,
 }
 
