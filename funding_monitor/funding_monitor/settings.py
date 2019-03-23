@@ -9,6 +9,8 @@
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 
+import os
+
 BOT_NAME = 'funding_monitor'
 
 SPIDER_MODULES = ['funding_monitor.spiders']
@@ -95,6 +97,12 @@ ITEM_PIPELINES = {
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 # Model path for Keras model
-import os
-STEPS_LEN = 33 # max number of tokens to be used
+STEPS_LEN = 33  # max number of tokens to be used
 CLASSIFIER_MODEL_PATH = os.path.join(os.path.dirname(__file__), '../../classifier/model/fundingNewsClassifier.h5')
+
+# AWS
+AWS_ACCESS_KEY_ID = os.environ('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ('AWS_SECRET_ACCESS_KEY')
+AWS_ENDPOINT_URL = os.environ('AWS_ENDPOINT_URL')
+AWS_VERIFY = os.environ('AWS_VERIFY')
+AWS_REGION_NAME = os.environ('AWS_REGION_NAME')
