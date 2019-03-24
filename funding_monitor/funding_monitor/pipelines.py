@@ -33,6 +33,16 @@ class JsonWriterPipeline(object):
         return item
 ### JsonWriterPipeline ends
 
+import boto3
+s3 = boto3.resource('s3')
+
+class S3WriterPipeline(object):
+    def process_item(self, item, spider):
+        line = json.dumps(dict(item))
+        item_id = item['id']
+        obj = s3.Object('startup-monitor', f'scraping/feeds/{spider.name}/{item_id}.json')
+        obj.put(Body=line)
+        return item
 
 ### MongoPipeline starts
 import pymongo
