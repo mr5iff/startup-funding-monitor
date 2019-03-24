@@ -36,12 +36,22 @@ class JsonWriterPipeline(object):
 import boto3
 s3 = boto3.resource('s3')
 
+dynamodb = boto3.resource('dynamodb', region_name='us-east-2')
+
 class S3WriterPipeline(object):
     def process_item(self, item, spider):
         line = json.dumps(dict(item))
         item_id = item['id']
         obj = s3.Object('startup-monitor', f'scraping/feeds/{spider.name}/{item_id}.json')
         obj.put(Body=line)
+        return item
+
+
+class DynamodbWriterPipeline(object):
+    def process_item(self, item, spider):
+        table = dynamodb.Table('StartupNews')
+        item_dict = dict(item)
+        table.put_item(Item=item_dict)
         return item
 
 ### MongoPipeline starts

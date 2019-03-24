@@ -75,7 +75,8 @@ ITEM_PIPELINES = {
     # 'funding_monitor.pipelines.NaiveDropDuplicatesPipeline': 150,
     # 'funding_monitor.pipelines.FundingNewsClassifierPipeline': 200,
     # 'funding_monitor.pipelines.JsonWriterPipeline': 300,
-    'funding_monitor.pipelines.S3WriterPipeline': 350,
+    # 'funding_monitor.pipelines.S3WriterPipeline': 350,
+    'funding_monitor.pipelines.DynamodbWriterPipeline': 360,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
