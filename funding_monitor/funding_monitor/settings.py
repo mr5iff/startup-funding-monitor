@@ -10,16 +10,18 @@
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 
 import os
+from botocore import configloader
 
 BOT_NAME = 'funding_monitor'
 
 SPIDER_MODULES = ['funding_monitor.spiders']
 NEWSPIDER_MODULE = 'funding_monitor.spiders'
 
-
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'funding_monitor (+http://www.yourdomain.com)'
-USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36'
+USER_AGENT = ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6)'
+              ' AppleWebKit/537.36 (KHTML, like Gecko)'
+              ' Chrome/60.0.3112.113 Safari/537.36')
 
 # Obey robots.txt rules
 # ROBOTSTXT_OBEY = True
@@ -69,10 +71,10 @@ DOWNLOAD_DELAY = 5
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'funding_monitor.pipelines.FundingMonitorPipeline': 100,
-   'funding_monitor.pipelines.NaiveDropDuplicatesPipeline': 150,
-   # 'funding_monitor.pipelines.FundingNewsClassifierPipeline': 200,
-   'funding_monitor.pipelines.JsonWriterPipeline': 300,
+    'funding_monitor.pipelines.FundingMonitorPipeline': 100,
+    'funding_monitor.pipelines.NaiveDropDuplicatesPipeline': 150,
+    # 'funding_monitor.pipelines.FundingNewsClassifierPipeline': 200,
+    'funding_monitor.pipelines.JsonWriterPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -101,8 +103,13 @@ STEPS_LEN = 33  # max number of tokens to be used
 CLASSIFIER_MODEL_PATH = os.path.join(os.path.dirname(__file__), '../../classifier/model/fundingNewsClassifier.h5')
 
 # AWS
-AWS_ACCESS_KEY_ID = os.environ('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.environ('AWS_SECRET_ACCESS_KEY')
-AWS_ENDPOINT_URL = os.environ('AWS_ENDPOINT_URL')
-AWS_VERIFY = os.environ('AWS_VERIFY')
-AWS_REGION_NAME = os.environ('AWS_REGION_NAME')
+aws_config = configloader.multi_file_load_config('~/.aws/credentials')
+
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID', aws_config.get('aws_access_key_id'))
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY', aws_config.get('aws_secret_access_key'))
+AWS_REGION_NAME = os.environ.get('AWS_REGION_NAME', aws_config.get('aws_region_name'))
+# AWS_ENDPOINT_URL = os.environ('AWS_ENDPOINT_URL')  # only needed for S3-like storage, for example Minio or s3.scality
+AWS_VERIFY = os.environ.get('AWS_VERIFY', True)
+
+FEED_URI = 's3://startup-monitor/scraping/feeds/%(name)s/%(name)s_%(time)s.json'
+FEED_FORMAT = 'jsonline'
