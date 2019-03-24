@@ -34,22 +34,25 @@ class JsonWriterPipeline(object):
 ### JsonWriterPipeline ends
 
 import boto3
-s3 = boto3.resource('s3')
-
-dynamodb = boto3.resource('dynamodb', region_name='us-east-2')
 
 class S3WriterPipeline(object):
+    def open_spider(self, spider):
+        self.s3 = s3 = boto3.resource('s3')
+
     def process_item(self, item, spider):
         line = json.dumps(dict(item))
         item_id = item['id']
-        obj = s3.Object('startup-monitor', f'scraping/feeds/{spider.name}/{item_id}.json')
+        obj = self.s3.Object('startup-monitor', f'scraping/feeds/{spider.name}/{item_id}.json')
         obj.put(Body=line)
         return item
 
-
 class DynamodbWriterPipeline(object):
+    def open_spider(self, spider):
+        dynamodb = boto3.resource('dynamodb', region_name='us-east-2')
+        self.table = dynamodb.Table('StartupNews')
+
     def process_item(self, item, spider):
-        table = dynamodb.Table('StartupNews')
+        table = self.table
         item_dict = dict(item)
         table.put_item(Item=item_dict)
         return item
@@ -83,7 +86,6 @@ class MongoPipeline(object):
         return item
 
 ### MongoPipeline ends
-
 
 ### FundingNewsClassifierPipeline starts
 # import numpy as np
@@ -137,7 +139,6 @@ class MongoPipeline(object):
 #         word_vector[np.isnan(word_vector)] = 0.0
 #         return np.clip(word_vector, a_min=lower_bound, a_max=upper_bound)
 ### FundingNewsClassifierPipeline ends
-
 
 ### NaiveDropDuplicatesPipeline starts
 from scrapy.exceptions import DropItem
