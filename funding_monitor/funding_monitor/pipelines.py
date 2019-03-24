@@ -19,8 +19,9 @@ import time
 class JsonWriterPipeline(object):
     def open_spider(self, spider):
         timestamp = str(int(time.time()))
-        filename = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'output', '{}_items_{}.json'.format(spider.name, timestamp))
-        print (filename)
+        filename = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                'output', '{}_items_{}.json'.format(spider.name, timestamp))
+        print(filename)
         self.file = open(filename, 'a')
 
     def close_spider(self, spider):
@@ -32,10 +33,19 @@ class JsonWriterPipeline(object):
         return item
 ### JsonWriterPipeline ends
 
+import boto3
+s3 = boto3.resource('s3')
+
+class S3WriterPipeline(object):
+    def process_item(self, item, spider):
+        line = json.dumps(dict(item))
+        item_id = item['id']
+        obj = s3.Object('startup-monitor', f'scraping/feeds/{spider.name}/{item_id}.json')
+        obj.put(Body=line)
+        return item
 
 ### MongoPipeline starts
 import pymongo
-
 
 class MongoPipeline(object):
     collection_name = 'funding_news'
@@ -87,16 +97,19 @@ class MongoPipeline(object):
 #         #     article_title_embedding = self.nlp(item['article_title'])
 #         #     article_title_embedding_clean = self._clean_word_vector(article_title_embedding)
 #         #     # padding zero to the front of the word embedding
-#         #     article_title_embedding_clean_padded = sequence.pad_sequences(article_title_embedding_clean, maxlen=self.steps_len ,dtype='float32')
+#         #     article_title_embedding_clean_padded = sequence.pad_sequences(article_title_embedding_clean,
+#         #                                                                   maxlen=self.steps_len ,dtype='float32')
 #         #     item['has_funding_news'] = np.asscalar(self.model.predict(article_title_embedding_clean_padded))
 #         # except Exception as e:
 #         #     logging.warn(e)
 #         # finally:
 #         #     return item
 #
-#         article_title_embedding = np.expand_dims([self._clean_word_vector(word.vector) for word in self.nlp(item['article_title'])], axis=0)
+#         article_title_embedding = np.expand_dims([self._clean_word_vector(word.vector)
+#         #                                        for word in self.nlp(item['article_title'])], axis=0)
 #         # padding zero to the front of the word embedding
-#         article_title_embedding_clean_padded = sequence.pad_sequences(article_title_embedding, maxlen=self.steps_len, dtype='float32')
+#         article_title_embedding_clean_padded = sequence.pad_sequences(article_title_embedding,
+#         #                                                             maxlen=self.steps_len, dtype='float32')
 #         item['has_funding_news'] = np.asscalar(self.model.predict(article_title_embedding_clean_padded))
 #         return item
 #
@@ -120,7 +133,9 @@ class MongoPipeline(object):
 from scrapy.exceptions import DropItem
 
 class NaiveDropDuplicatesPipeline(object):
-    """Naive as in it uses in memory ids_seen for the check. Better should use be independent of memory, e.g. cache etc"""
+    """
+    Naive as in it uses in memory ids_seen for the check. Better should use be independent of memory, e.g. cache etc
+    """
     def __init__(self):
         self.ids_seen = set()
 
