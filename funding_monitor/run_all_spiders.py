@@ -1,7 +1,7 @@
 from scrapy.utils.project import get_project_settings
 from scrapy.crawler import CrawlerProcess
 from datetime import datetime
-from .notify import send_telegram_msg
+from notify import send_telegram_msg
 
 setting = get_project_settings()
 process = CrawlerProcess(setting)
