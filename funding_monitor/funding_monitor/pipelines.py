@@ -47,15 +47,32 @@ class S3WriterPipeline(object):
         return item
 
 class DynamodbWriterPipeline(object):
+    batch_size = 50
+
+    def __init__(self):
+        super(DynamodbWriterPipeline, self).__init__()
+        self.items = []
+
     def open_spider(self, spider):
         dynamodb = boto3.resource('dynamodb', region_name='us-east-2')
         self.table = dynamodb.Table('StartupNews')
 
     def process_item(self, item, spider):
-        table = self.table
-        item_dict = dict(item)
-        table.put_item(Item=item_dict)
+        self.items.append(dict(item))
+        if len(self.items) >= self.batch_size:
+            self.insert_current_items()
         return item
+
+    def flush(self):
+        items = self.items
+        self.items = []
+        self.insert_to_database(items)
+
+    def insert_to_database(self, items):
+        table = self.table
+        with table.batch_writer() as batch:
+            for item in items:
+                batch.put_item(Item=item)
 
 ### MongoPipeline starts
 import pymongo
