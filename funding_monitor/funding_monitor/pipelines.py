@@ -60,15 +60,15 @@ class DynamodbWriterPipeline(object):
     def process_item(self, item, spider):
         self.items.append(dict(item))
         if len(self.items) >= self.batch_size:
-            self.insert_current_items()
+            self.flush()
         return item
 
     def flush(self):
         items = self.items
         self.items = []
-        self.insert_to_database(items)
+        self.insert_current_items(items)
 
-    def insert_to_database(self, items):
+    def insert_current_items(self, items):
         table = self.table
         with table.batch_writer() as batch:
             for item in items:
