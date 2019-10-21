@@ -168,7 +168,7 @@ w3lib==1.20.0
 wasabi==0.1.4
 wcwidth==0.1.7
 webencodings==0.5.1
-Werkzeug==0.15.0
+Werkzeug==0.15.3
 widgetsnbextension==3.4.2
 wrapt==1.11.1
 zope.interface==4.6.0
