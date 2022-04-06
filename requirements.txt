@@ -161,7 +161,7 @@ tornado==6.0.2
 tqdm==4.31.1
 traitlets==4.3.2
 tweepy==3.7.0
-Twisted==18.9.0
+Twisted==22.2.0
 ujson==1.35
 urllib3==1.24.1
 w3lib==1.20.0
