@@ -48,7 +48,7 @@ geopandas==0.4.1
 geoplot==0.2.4
 grpcio==1.19.0
 h5py==2.9.0
-html5lib==0.9999999
+html5lib==0.999999999
 hyperlink==18.0.0
 idna==2.7
 incremental==17.5.0
